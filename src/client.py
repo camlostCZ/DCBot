@@ -1,4 +1,4 @@
-from lxml import html, etree
+from lxml import html
 import requests
 
 import discord
