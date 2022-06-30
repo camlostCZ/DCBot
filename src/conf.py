@@ -1,0 +1,1 @@
+URL_JOKES = "https://vysmatej.cz/nahodne-vtipy/"
