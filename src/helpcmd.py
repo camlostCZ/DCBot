@@ -15,5 +15,5 @@ class PBotHelpCmd(commands.HelpCommand):
         await self.context.send("This is help group")
     
    # !help <cog>
-    async def send_cog_help(self, cog):
+    async def send_GuessNumberGame_help(self, cog):
         await self.context.send("This is help cog")
