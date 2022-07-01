@@ -6,6 +6,7 @@ import requests
 from lxml import html
 
 import discord
+from discord.ext import commands
 from discord.ext.commands import Bot
 
 import conf
@@ -24,12 +25,12 @@ bot = Bot(command_prefix="!", intents=intents)
 @bot.command(name="calc", help="Jednoduchá kalkulačka")
 async def calc(ctx, *args):
     expression = "".join(args)
-    print(f"Calc parameter: {expression}")
+    #print(f"DBG: Calc parameter: {expression}")
     response = "Neplatné zadání. Povolené znaky: 0-9, *, /, +, -, mezera, (, ), ^"
 
     if re.match(PATTERN_CALC_VALIDATION, expression):
         expr_translated = expression.replace("^", "**")
-        print(f"Calc - fixed expression: {expr_translated}")
+        #print(f"DBG: Calc - fixed expression: {expr_translated}")
         try:
             result = eval(expr_translated)
             response = f"Výsledek:  {result}"
@@ -96,3 +97,11 @@ async def on_ready():
 async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(f"Vítej, {member.name}, na mém Discord serveru!")
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.errors.CheckFailure):
+        await ctx.send("Nemáš roli potřebnou pro uvedený příkaz.")
+    if isinstance(error, commands.errors.CommandNotFound):
+        await ctx.send("Neznámý příkaz.")
