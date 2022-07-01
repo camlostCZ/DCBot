@@ -11,7 +11,9 @@ from discord.ext.commands import Bot
 
 import conf
 from creds import *
-from helpcmd import PBotHelpCmd
+
+from cog_guessnumber import GuessNumberGame
+
 
 # Pattern used to validate input before calling eval()
 # Allowed chars: 0-9, *, /, +, -, space, (, ), and ^.
@@ -105,3 +107,6 @@ async def on_command_error(ctx, error):
         await ctx.send("Nemáš roli potřebnou pro uvedený příkaz.")
     if isinstance(error, commands.errors.CommandNotFound):
         await ctx.send("Neznámý příkaz.")
+
+
+bot.add_cog(GuessNumberGame(bot))
