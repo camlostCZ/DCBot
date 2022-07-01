@@ -42,15 +42,18 @@ class GuessNumberGame(commands.Cog):
             else:
                 await ctx.send("Hra něběží. Nelze ji ukončit.")
         else:  # This is a guess
-            try:
-                guess = int(arg)
-                sender = ctx.author.display_name
-                if guess == self._secret_number:
-                    self.stop_game()
-                    await ctx.send(f"@{sender} Vyhrál! Hledané číslo: {self._secret_number}")
-                elif guess < self._secret_number:
-                    await ctx.send(f"@{sender} Hledané číslo je větší.")
-                else:
-                    await ctx.send(f"@{sender} Hledané číslo je menší.")
-            except ValueError:
-                await ctx.send(f"@{sender} Chybné zadání.")
+            sender = ctx.author.display_name
+            if self._is_running:
+                try:
+                    guess = int(arg)
+                    if guess == self._secret_number:
+                        self.stop_game()
+                        await ctx.send(f"@{sender} Vyhrál! Hledané číslo: {self._secret_number}")
+                    elif guess < self._secret_number:
+                        await ctx.send(f"@{sender} Hledané číslo je větší.")
+                    else:
+                        await ctx.send(f"@{sender} Hledané číslo je menší.")
+                except ValueError:
+                    await ctx.send(f"@{sender} Chybné zadání.")
+            else:
+                await ctx.send(f"@{sender} Hra neběží. Nejprve ji spusť příkazem !guess start.")
