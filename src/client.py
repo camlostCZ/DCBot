@@ -1,5 +1,9 @@
-from lxml import html
+from math import exp
+import re
+from urllib import response
 import requests
+
+from lxml import html
 
 import discord
 from discord.ext.commands import Bot
@@ -8,8 +12,30 @@ import conf
 from creds import *
 from helpcmd import PBotHelpCmd
 
+# Pattern used to validate input before calling eval()
+# Allowed chars: 0-9, *, /, +, -, space, (, ), and ^.
+PATTERN_CALC_VALIDATION = r"^[0-9+\-*\/^\(\)\. ]+$"
+
+
 intents = discord.Intents.default()
 bot = Bot(command_prefix="!", intents=intents)
+
+
+@bot.command(name="calc", help="Jednoduchá kalkulačka")
+async def calc(ctx, *args):
+    expression = "".join(args)
+    print(f"Calc parameter: {expression}")
+    response = "Neplatné zadání. Povolené znaky: 0-9, *, /, +, -, mezera, (, ), ^"
+
+    if re.match(PATTERN_CALC_VALIDATION, expression):
+        expr_translated = expression.replace("^", "**")
+        print(f"Calc - fixed expression: {expr_translated}")
+        try:
+            result = eval(expr_translated)
+            response = f"Výsledek:  {result}"
+        except:
+            response = "Neplatný výraz."
+    await ctx.send(response)
 
 
 @bot.command(name="ping", help="Odpoví 'pong'.")
