@@ -26,7 +26,7 @@ class GuessNumberGame(commands.Cog):
         self._is_running = False
 
 
-    @commands.command(name="guess", help="Hra hádání čísel")
+    @commands.command(name="guess", help="Hra hádání čísel", brief="Syntax: !guess start|stop|<číslo>")
     async def guess(self, ctx, arg: str):
         cmd = arg.lower()
         if cmd == "start":  # Start a new game
