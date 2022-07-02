@@ -1,6 +1,6 @@
-from math import exp
+import logging
 import re
-from urllib import response
+
 import requests
 
 from lxml import html
@@ -27,12 +27,12 @@ bot = Bot(command_prefix="!", intents=intents)
 @bot.command(name="calc", help="Jednoduchá kalkulačka")
 async def calc(ctx, *args):
     expression = "".join(args)
-    #print(f"DBG: Calc parameter: {expression}")
+    logging.debug(f"Calc parameter: {expression}")
     response = "Neplatné zadání. Povolené znaky: 0-9, *, /, +, -, mezera, (, ), ^"
 
     if re.match(PATTERN_CALC_VALIDATION, expression):
         expr_translated = expression.replace("^", "**")
-        #print(f"DBG: Calc - fixed expression: {expr_translated}")
+        logging.debug(f"Calc - fixed expression: {expr_translated}")
         try:
             result = eval(expr_translated)
             response = f"Výsledek:  {result}"
@@ -52,7 +52,7 @@ async def vtip(ctx):
     page = requests.get(conf.URL_JOKES)
     tree = html.fromstring(page.content)
     jokes = tree.xpath('//div[@class="joke"]')
-    #print(f"DBG: Jokes found: {len(jokes)}")
+    logging.debug(f"Jokes found: {len(jokes)}")
 
     response = "Chyba: Vtip nebyl nalezen."
     if not jokes is None and len(jokes) > 0:
@@ -75,9 +75,8 @@ async def mc_search(ctx, query: str):
 async def on_ready():
     guild = discord.utils.get(bot.guilds, name=GUILD)
 
-    print(
-        f"{bot.user} is connected to the following guild:\n"
-        f"{guild.name}(id: {guild.id})"
+    logging.info(
+        f"{bot.user} is connected to guild: {guild.name} (id: {guild.id})"
     )
 
     members = "\n - ".join([member.name for member in guild.members])
