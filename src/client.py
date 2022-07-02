@@ -71,17 +71,6 @@ async def mc_search(ctx, query: str):
     await ctx.send(response)
 
 
-@bot.command(name="py", help="Python help")
-async def python_docs(ctx, query: str):
-    url = f"https://docs.python.org/3/search.html?q={query}&check_keywords=yes&area=default"
-    print(f"DBG: url={url}")
-    page = requests.get(url)
-    tree = html.fromstring(page.content)
-    results = tree.xpath('//ul[@class="search"]//a')
-
-    response = "WIP"
-    await ctx.send(response)
-
 @bot.event
 async def on_ready():
     guild = discord.utils.get(bot.guilds, name=GUILD)
