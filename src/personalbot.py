@@ -1,6 +1,6 @@
 import logging
 
-from creds import *
+from creds import TOKEN
 from client import bot
 
 LOG_LEVEL = logging.DEBUG
