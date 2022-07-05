@@ -8,6 +8,7 @@ from cog_common import GeneralCommands
 from cog_guessnumber import GuessNumberGame
 from creds import GUILD
 
+
 intents = discord.Intents.default()
 bot = Bot(command_prefix="!", intents=intents)
 
