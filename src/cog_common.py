@@ -30,6 +30,14 @@ class GeneralCommands(commands.Cog):
         await ctx.send(response)
 
 
+    @commands.command(name="hello", help="Pozdraví v soukromé zprávě.")
+    async def hello(self, ctx):
+        member = ctx.author
+        await member.create_dm()
+        await member.dm_channel.send(
+            f"Pěkného dne přeji! :-D")
+
+
     @commands.command(name="joke", help="Zobrazí náhodný vtip.")
     async def joke(self, ctx):
         page = requests.get(conf.URL_JOKES)
