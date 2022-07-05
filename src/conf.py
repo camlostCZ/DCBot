@@ -1,3 +1,6 @@
+# File with Hangman words
+HANGMAN_PATH = "./resources/hangman_words.txt"
+
 # Pattern used to validate input before calling eval().
 # Allowed chars: 0-9, *, /, +, -, space, (, ), and ^.
 PATTERN_CALC_VALIDATION = r"^[0-9+\-*\/^\(\)\. ]+$"
