@@ -12,6 +12,7 @@ class GuessNumberGame(commands.Cog):
         self.bot = bot
         self._is_running = False
         self._secret_number = -1
+        self._guess_count = 0
 
 
     def start_game(self):
@@ -19,6 +20,7 @@ class GuessNumberGame(commands.Cog):
             GuessNumberGame.MIN_NUMBER,
             GuessNumberGame.MAX_NUMBER)
         self._is_running = True
+        self._guess_count = 0
 
 
     def stop_game(self):
@@ -45,9 +47,12 @@ class GuessNumberGame(commands.Cog):
             if self._is_running:
                 try:
                     guess = int(arg)
+                    self._guess_count += 1
                     if guess == self._secret_number:
                         self.stop_game()
-                        await ctx.send(f"@{sender} Vyhrál! Hledané číslo: {self._secret_number}")
+                        await ctx.send(
+                            f"@{sender} Vyhrál! Hledané číslo: {self._secret_number}\n"
+                            + f"Počet pokusů: {self._guess_count}")
                     elif guess < self._secret_number:
                         await ctx.send(f"@{sender} Hledané číslo je větší.")
                     else:
