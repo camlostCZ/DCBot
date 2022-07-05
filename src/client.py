@@ -6,6 +6,7 @@ from discord.ext.commands import Bot
 
 from cog_common import GeneralCommands
 from cog_guessnumber import GuessNumberGame
+from cog_hangman import HangmanGame
 from creds import GUILD
 
 
@@ -40,3 +41,4 @@ async def on_command_error(ctx, error):
 
 bot.add_cog(GeneralCommands(bot))
 bot.add_cog(GuessNumberGame(bot))
+bot.add_cog(HangmanGame(bot))
