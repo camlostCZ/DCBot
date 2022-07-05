@@ -30,20 +30,8 @@ class GeneralCommands(commands.Cog):
         await ctx.send(response)
 
 
-    @commands.command(name="mc", help="Vyhledávání v oficiální Minecraft Wiki.")
-    async def mc_search(self, ctx, query: str):
-        response = f"https://minecraft.gamepedia.com/Special:Search?search={query}"
-        await ctx.send(response)
-
-
-    @commands.command(name="ping", help="Odpoví 'pong'.")
-    async def ping(self, ctx):
-        response = f"pong ({round(self._bot.latency * 1000)} ms)"
-        await ctx.send(response)
-
-
     @commands.command(name="joke", help="Zobrazí náhodný vtip.")
-    async def vtip(self, ctx):
+    async def joke(self, ctx):
         page = requests.get(conf.URL_JOKES)
         tree = html.fromstring(page.content)
         jokes = tree.xpath('//div[@class="joke"]')
@@ -59,3 +47,14 @@ class GeneralCommands(commands.Cog):
                     response += each.tail
         await ctx.send(response)
 
+
+    @commands.command(name="mc", help="Vyhledávání v oficiální Minecraft Wiki.")
+    async def mc_search(self, ctx, query: str):
+        response = f"https://minecraft.gamepedia.com/Special:Search?search={query}"
+        await ctx.send(response)
+
+
+    @commands.command(name="ping", help="Odpoví 'pong'.")
+    async def ping(self, ctx):
+        response = f"pong ({round(self._bot.latency * 1000)} ms)"
+        await ctx.send(response)
