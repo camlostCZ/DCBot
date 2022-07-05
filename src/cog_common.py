@@ -66,3 +66,9 @@ class GeneralCommands(commands.Cog):
     async def ping(self, ctx):
         response = f"pong ({round(self._bot.latency * 1000)} ms)"
         await ctx.send(response)
+
+
+    @commands.command(name="quit", help="Ukončí běh bota.")
+    @commands.is_owner()
+    async def quit(self, ctx):
+        await ctx.bot.logout()
