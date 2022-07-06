@@ -3,7 +3,7 @@ import random
 
 from discord.ext import commands
 
-from conf import HANGMAN_PATH, HANGMAN_RESPONSE
+from conf import HANGMAN_WORDS, HANGMAN_RESPONSE, HANGMAN_IMAGE_FMT
 
 GUESS_MAX_COUNT = 9
 
@@ -18,7 +18,7 @@ class OneGame:
 
     def __init__(self, player_name: str) -> None:
         self._player = player_name
-        self._secret = self.choose_secret_word(HANGMAN_PATH)
+        self._secret = self.choose_secret_word(HANGMAN_WORDS)
         self._progress = "-" * len(self._secret)
         self._previous = set()
         self._guess_count = 0
