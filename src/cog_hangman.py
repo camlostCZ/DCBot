@@ -27,7 +27,7 @@ class CogHangman(commands.Cog):
         return result
 
 
-    def stop_game(self, player: str) -> str:
+    def stop_game(self, player: str) -> tuple[str, str]:
         result = "Hru Hangman zatím nehraješ. Spusť ji příkazem !hangman."
         if player in self._games:
             game = self._games.pop(player)
@@ -54,7 +54,7 @@ class CogHangman(commands.Cog):
                 Postup: `{word}`
                 """
             if guess == HangmanGuessType.GUESS_TOOMANY:
-                result = self.stop_game(player)
+                result, path = self.stop_game(player)
             elif guess == HangmanGuessType.GUESS_SUCCESS:
                 self.stop_game(player)
                 result = HANGMAN_RESPONSE[guess.value]
