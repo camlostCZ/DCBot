@@ -33,25 +33,27 @@ class OneGame:
         return result
 
 
-    def make_guess(self, letter: str) -> tuple[int, str]:
+    def make_guess(self, letter: str) -> tuple[int, str, str]:
         if letter in self._previous:
+            prev = " ,".join(sorted(list(self._previous)))
             self._guess_count += 1
-            result = (OneGame.GUESS_PREVIOUS, self._progress)
+            result = (OneGame.GUESS_PREVIOUS, self._progress, prev)
             if self._guess_count >= GUESS_MAX_COUNT:
-                result = (OneGame.GUESS_TOOMANY, self._progress)
-        elif letter not in self._secret:
-            self._guess_count += 1
-            result = (OneGame.GUESS_BAD, self._progress)
-            if self._guess_count >= GUESS_MAX_COUNT:
-                result = (OneGame.GUESS_TOOMANY, self._progress)
-        else:   # Good guess
-            word = self._replace_char(letter)
-            self._progress = word
-            result = (OneGame.GUESS_OK, word)
-            if self._progress == self._secret:
-                result = (OneGame.GUESS_SUCCESS, word)
-
-        self._previous.add(letter)
+                result = (OneGame.GUESS_TOOMANY, self._progress, prev)
+        else:
+            self._previous.add(letter)
+            prev = " ,".join(sorted(list(self._previous)))
+            if letter not in self._secret:
+                self._guess_count += 1
+                result = (OneGame.GUESS_BAD, self._progress, prev)
+                if self._guess_count >= GUESS_MAX_COUNT:
+                    result = (OneGame.GUESS_TOOMANY, self._progress, prev)
+            else:   # Good guess
+                word = self._replace_char(letter)
+                self._progress = word
+                result = (OneGame.GUESS_OK, word, prev)
+                if self._progress == self._secret:
+                    result = (OneGame.GUESS_SUCCESS, word, prev)
         return result
 
     
@@ -98,8 +100,12 @@ class HangmanGame(commands.Cog):
     def play_game(self, player: str, letter: str) -> str:
         result = "Hru Hangman zatím nehraješ. Spusť ji příkazem !hangman."
         if player in self._games:
-            guess_result, word = self._games[player].make_guess(letter)
-            result = f"{HANGMAN_RESPONSE[guess_result]}\nPostup: `{word}`"
+            guess_result, word, previous = self._games[player].make_guess(letter)
+            result = f"""
+                {HANGMAN_RESPONSE[guess_result]}\n
+                Tipovaná písmena: {previous}
+                Postup: `{word}`
+                """
             if guess_result == OneGame.GUESS_TOOMANY:
                 result = self.stop_game(player)
             elif guess_result == OneGame.GUESS_SUCCESS:
