@@ -1,5 +1,6 @@
 import pytest
 
+from conf import HANGMAN_RESPONSE
 from hangman_game import HangmanGame, HangmanGuessType
 
 PLAYER = "test"
@@ -62,3 +63,8 @@ def test_make_toomany_guesses(new_game: HangmanGame):
     for _ in range(9):
         guess = new_game.make_guess("x")
     assert guess == HangmanGuessType.GUESS_TOOMANY
+
+
+def test_hangman_guess_type():
+    guess_type = HangmanGuessType.GUESS_PREVIOUS
+    assert str(guess_type) == HANGMAN_RESPONSE[guess_type.value]
