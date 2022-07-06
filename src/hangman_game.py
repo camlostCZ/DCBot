@@ -96,6 +96,13 @@ class HangmanGame:
             result = HangmanGuessType.GUESS_TOOMANY
         return result
 
+
+    def stop(self):
+        """
+        Stop the game.
+        """
+        self._guess_count = GUESS_MAX_COUNT
+
     
     def _replace_char(self, letter: str) -> str:
         """
