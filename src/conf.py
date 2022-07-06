@@ -1,7 +1,7 @@
 # File with Hangman words
 HANGMAN_WORDS = "./resources/hangman/hangman_words.txt"
 
-HANGMAN_IMAGE_FMT = "./resources/hangman/hangman-game-{}.png"
+HANGMAN_IMAGE_FMT = "./resources/hangman/hangman-game-{:02}.png"
 
 HANGMAN_RESPONSE = [
     "Bohužel, toto písmeno není v hledaném slově.",
