@@ -46,7 +46,7 @@ class CogHangman(commands.Cog):
             guess = game.make_guess(letter)
             logging.debug(f"play_game(): guess result: {guess}")
             steps, history, word, path = game.get_status()
-            used_letters = " ,".join(history)
+            used_letters = ", ".join(history)
             logging.debug(f"play_game(): game status: steps={steps}, history={used_letters}, word={word}, img={path}")
             result = f"""
                 {HANGMAN_RESPONSE[guess.value]}\n
