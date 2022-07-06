@@ -31,8 +31,10 @@ class CogHangman(commands.Cog):
         result = "Hru Hangman zatím nehraješ. Spusť ji příkazem !hangman."
         if player in self._games:
             game = self._games.pop(player)
+            game.stop()
+            _, _, _, path = game.get_status()
             result = f"Jsi mrtev.\nHledané slovo bylo: `{game._secret}`"
-        return result
+        return (result, path)
 
 
     def play_game(self, player: str, letter: str) -> tuple[str, str]:
@@ -71,7 +73,7 @@ class CogHangman(commands.Cog):
         elif cmd == "":     # Start a game
             response = self.start_game(sender.display_name)
         elif cmd == "/kill":
-            response = self.stop_game(sender.display_name)
+            response, path = self.stop_game(sender.display_name)
 
         await sender.create_dm()
         if path:
