@@ -57,7 +57,7 @@ class CogHangman(commands.Cog):
                 result = self.stop_game(player)
             elif guess == HangmanGuessType.GUESS_SUCCESS:
                 self.stop_game(player)
-                result = HANGMAN_RESPONSE[guess]
+                result = HANGMAN_RESPONSE[guess.value]
         return (result, path)
 
 
