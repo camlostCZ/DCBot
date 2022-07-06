@@ -36,13 +36,18 @@ class CogHangman(commands.Cog):
 
 
     def play_game(self, player: str, letter: str) -> tuple[str, str]:
+        logging.debug(f"play_game(): player={player}, letter={letter}")
         result = "Hru Hangman zatím nehraješ. Spusť ji příkazem !hangman."
         if player in self._games:
+            logging.debug(f"play_game(): game found for player {player}.")
             game = self._games[player]
             guess = game.make_guess(letter)
-            _, used_letters, word, path = game.get_status()
+            logging.debug(f"play_game(): guess result: {guess}")
+            steps, history, word, path = game.get_status()
+            used_letters = " ,".join(history)
+            logging.debug(f"play_game(): game status: steps={steps}, history={used_letters}, word={word}, img={path}")
             result = f"""
-                {HANGMAN_RESPONSE[guess]}\n
+                {HANGMAN_RESPONSE[guess.value]}\n
                 Tipovaná písmena: {used_letters}
                 Postup: `{word}`
                 """
@@ -71,4 +76,5 @@ class CogHangman(commands.Cog):
         await sender.create_dm()
         if path:
             await sender.dm_channel.send(response, file=discord.File(path))
-        await sender.dm_channel.send(response)
+        else:
+            await sender.dm_channel.send(response)
