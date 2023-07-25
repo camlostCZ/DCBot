@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from creds import TOKEN
 from client import bot
@@ -11,4 +12,8 @@ logging.basicConfig(
     level=LOG_LEVEL,
     format=LOG_FORMAT)
 
-bot.run(TOKEN)
+if TOKEN:
+    bot.run(TOKEN)
+else:
+    print("Error: DISCORD_TOKEN variable missing or empty.",
+        file=sys.stderr)
